@@ -23,6 +23,10 @@ public class PlayerController : MonoBehaviour
         float forwardInput = Input.GetAxis("Vertical");
         playerRb.AddForce(focalPoint.transform.forward * speed * forwardInput);
         powerupIndicator.transform.position = transform.position + new Vector3(0, -0.5f, 0);
+        if(transform.position.y < -10)
+        {
+            Debug.Log("Game Over!");
+        }
     }
         private void OnTriggerEnter(Collider other)  
     {
@@ -47,7 +51,7 @@ public class PlayerController : MonoBehaviour
 
             Rigidbody enemyRigidbody = collision.gameObject.GetComponent<Rigidbody>();
             Vector3 awayFromPlayer = (collision.gameObject.transform.position - transform.position);
-            Debug.Log("player collided with: " + collision.gameObject.name + "with powerup set to " + hasPowerup);
+            // Debug.Log("player collided with: " + collision.gameObject.name + "with powerup set to " + hasPowerup);
             enemyRigidbody.AddForce(awayFromPlayer * powerupStrength, ForceMode.Impulse);
         }
 
