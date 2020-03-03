@@ -6,6 +6,7 @@ public class SpawnManager : MonoBehaviour
 {
     public GameObject enemyPrefab;
     public GameObject powerupPrefab;
+    private GameObject player;
     private float spawnRange = 9.0f;
     public int enemyCount;
     private int spawnNum;
@@ -13,19 +14,26 @@ public class SpawnManager : MonoBehaviour
     void Start()
     {
       SpawnEnemyWave(spawnNum);
+      player = GameObject.Find("Player");
     }
 
     // Update is called once per frame
     void Update()
     {
         enemyCount = FindObjectsOfType<EnemyController>().Length;
-
+        if (player.transform.position.y > -10)
+        {
         if (enemyCount == 0) 
         {
             spawnNum++;
             SpawnEnemyWave(spawnNum);
             Instantiate(powerupPrefab, GenerateSpawnPosition(), powerupPrefab.transform.rotation);
             Debug.Log("Score = " + spawnNum);
+        }
+        } else {
+            GameObject[] powerups = GameObject.FindGameObjectsWithTag("Powerup");
+            foreach(GameObject powerupPrefab in powerups)
+            GameObject.Destroy(powerupPrefab);
         }
     }
     
